@@ -1,7 +1,16 @@
-# Replay viewer control sequences. Filled in by calibration against the real viewer.
-# Steps: ["key", "<key>"], ["click", "x", "y"], ["wait", "seconds"]. {round}/{slot} are substituted.
+# Replay viewer control sequences (Siege Y11S3 replay viewer, mapped from screenshot 2026-10-25).
+# Steps: ["key", "<key>"], ["click", "x", "y"], ["wait", "seconds"].
+# {round}, {slot}, {steps} are substituted by capture.py.
+#
+# Viewer bindings seen on screen:
+#   G timeline | H hide HUD | Y customize HUD | Q/E navigate player card | F select
+#   X/C switch view | Alt move slow | Shift/Ctrl change floor | mouse wheel camera up/down
+#   Playback bar: rewind / play / fast-forward, round selector, speed (1.0x)
+#
+# Player cards: left = team index 0 (blue), right = team index 1 (orange), each in
+# reverse r6-dissect lineup order. Slots 1-10 left to right.
 
-round_seconds = 200
+round_seconds = 205          # full replay round length (timeline shows 3:20) + buffer
 
 [obs]
 host = "localhost"
@@ -9,8 +18,8 @@ port = 4455
 password = ""
 
 [sequences]
-open_round   = [["wait", "1"]]             # TODO: calibrate
-select_player = [["key", "{slot}"]]        # TODO: confirm number keys select player
-third_person = [["key", "TODO"]]
-play         = [["key", "space"]]
-exit_round   = [["key", "esc"], ["wait", "3"]]
+open_round    = [["wait", "1"]]                         # TODO: round selector in playback bar
+select_player = [["key", "q", "10"], ["key", "e", "{steps}"], ["key", "f"], ["wait", "1"]]
+third_person  = [["key", "x"], ["wait", "1"]]           # TODO: confirm X cycles to third person
+play          = [["key", "space"]]                      # TODO: confirm (play button also clickable)
+exit_round    = [["wait", "2"]]

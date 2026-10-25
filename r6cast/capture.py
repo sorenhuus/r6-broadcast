@@ -35,7 +35,9 @@ class Viewer:
     def _do(self, step):
         kind, arg = step[0], step[1:]
         if kind == "key":
-            self.inp.press(arg[0])
+            n = int(arg[1]) if len(arg) > 1 else 1
+            if n > 0:
+                self.inp.press(arg[0], presses=n, interval=0.15)
         elif kind == "click":
             self.inp.click(int(arg[0]), int(arg[1]))
         elif kind == "wait":
@@ -46,7 +48,7 @@ class Viewer:
             self._do([s.format(**fmt) if isinstance(s, str) else s for s in step])
 
     def select(self, slot: int, view: str):
-        self.run("select_player", slot=slot)
+        self.run("select_player", slot=slot, steps=slot - 1)
         if view == "third":
             self.run("third_person")
 
@@ -66,15 +68,16 @@ class OBS:
 
 
 def player_slots(events_path: Path) -> dict[int, dict[str, int]]:
-    """Replay viewer lists players by team in lineup order; slot 1-5 our team, 6-10 enemy."""
+    """Viewer cards: team index 0 on the left, team 1 on the right, each in reverse
+    r6-dissect lineup order. Slots run 1-10 left to right."""
     match = json.loads(events_path.read_text())
     slots = {}
     for e in match["events"]:
         if e["kind"] == "round_start":
             lineup = json.loads(e["note"])["lineup"]
-            ours = [u for u, v in lineup.items() if v["team"] == 1]
-            theirs = [u for u, v in lineup.items() if v["team"] == 0]
-            slots[e["round"]] = {u: i + 1 for i, u in enumerate(ours + theirs)}
+            left = [u for u, v in lineup.items() if v["team"] == 0][::-1]
+            right = [u for u, v in lineup.items() if v["team"] == 1][::-1]
+            slots[e["round"]] = {u: i + 1 for i, u in enumerate(left + right)}
     return slots
 
 

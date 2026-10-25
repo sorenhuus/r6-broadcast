@@ -14,7 +14,7 @@ import pytesseract
 from .events import Event, Match
 
 KILLFEED = (0.70, 0.08, 0.29, 0.22)   # top-right
-TIMER = (0.465, 0.015, 0.07, 0.045)   # top-centre
+TIMER = (0.485, 0.055, 0.03, 0.05)    # top-centre round clock (checked on 32:9 replay viewer)
 SAMPLE_FPS = 2
 
 
