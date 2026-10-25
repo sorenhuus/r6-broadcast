@@ -8,3 +8,6 @@ matches/*
 *.mp4
 *.mkv
 *.wav
+.terraform/
+*.tfstate*
+*.tfvars

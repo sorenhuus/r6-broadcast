@@ -14,7 +14,7 @@ dependencies = [
 
 [project.optional-dependencies]
 dev = ["pytest>=8"]
-capture = ["obsws-python>=1.7", "pydirectinput>=1.0.4"]
+capture = ["obsws-python>=1.7", "pydirectinput>=1.0.4", "pillow>=10"]
 
 [project.scripts]
 r6cast = "r6cast.cli:app"
