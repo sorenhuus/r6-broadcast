@@ -1,0 +1,10 @@
+.env
+__pycache__/
+*.egg-info/
+.venv/
+out/
+matches/*
+!matches/.gitkeep
+*.mp4
+*.mkv
+*.wav

@@ -1,0 +1,26 @@
+[project]
+name = "r6cast"
+version = "0.1.0"
+description = "Turn Rainbow Six Siege match recordings into broadcast-style videos with AI casters"
+requires-python = ">=3.11"
+dependencies = [
+  "opencv-python>=4.9",
+  "pytesseract>=0.3.10",
+  "anthropic>=0.40",
+  "azure-cognitiveservices-speech>=1.38",
+  "python-dotenv>=1.0",
+  "typer>=0.12",
+]
+
+[project.optional-dependencies]
+dev = ["pytest>=8"]
+
+[project.scripts]
+r6cast = "r6cast.cli:app"
+
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools]
+packages = ["r6cast"]
