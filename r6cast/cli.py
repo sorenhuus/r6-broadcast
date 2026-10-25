@@ -21,6 +21,17 @@ def calibrate(video: Path, at: float = 60.0, out: Path = Path("calibrate.png")):
 
 
 @app.command()
+def parse(replay_dir: Path, out: Path = Path("out/events.json")):
+    """Read a MatchReplay folder (.rec files) into events.json."""
+    from .parse import parse as _parse
+    out.parent.mkdir(parents=True, exist_ok=True)
+    m = _parse(replay_dir)
+    m.save(out)
+    kills = sum(e.kind == "kill" for e in m.events)
+    typer.echo(f"{m.meta['map']}: {kills} kills → {out}")
+
+
+@app.command()
 def detect(video: Path, out: Path = Path("out/events.json")):
     from .detect import detect as _detect
     out.parent.mkdir(parents=True, exist_ok=True)

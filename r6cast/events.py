@@ -23,11 +23,12 @@ class Match:
     source: str
     duration: float
     events: list[Event] = field(default_factory=list)
+    meta: dict = field(default_factory=dict)
 
     def save(self, path: Path) -> None:
-        path.write_text(json.dumps(asdict(self), indent=2))
+        path.write_text(json.dumps(asdict(self), indent=2, ensure_ascii=False))
 
     @classmethod
     def load(cls, path: Path) -> "Match":
         d = json.loads(path.read_text())
-        return cls(d["source"], d["duration"], [Event(**e) for e in d["events"]])
+        return cls(d["source"], d["duration"], [Event(**e) for e in d["events"]], d.get("meta", {}))
