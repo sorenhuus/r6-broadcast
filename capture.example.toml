@@ -1,0 +1,16 @@
+# Replay viewer control sequences. Filled in by calibration against the real viewer.
+# Steps: ["key", "<key>"], ["click", "x", "y"], ["wait", "seconds"]. {round}/{slot} are substituted.
+
+round_seconds = 200
+
+[obs]
+host = "localhost"
+port = 4455
+password = ""
+
+[sequences]
+open_round   = [["wait", "1"]]             # TODO: calibrate
+select_player = [["key", "{slot}"]]        # TODO: confirm number keys select player
+third_person = [["key", "TODO"]]
+play         = [["key", "space"]]
+exit_round   = [["key", "esc"], ["wait", "3"]]

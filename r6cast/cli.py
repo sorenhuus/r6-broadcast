@@ -32,6 +32,34 @@ def parse(replay_dir: Path, out: Path = Path("out/events.json")):
 
 
 @app.command()
+def direct(events: Path = Path("out/events.json"), out: Path = Path("out/shots.json")):
+    """Pick camera shots per round from events."""
+    from . import director
+    from .events import Match
+    shots = director.direct(Match.load(events))
+    director.save(shots, out)
+    typer.echo(f"{len(shots)} shots, {len(director.passes(shots))} capture passes → {out}")
+
+
+@app.command()
+def capture(shots: Path = Path("out/shots.json"), events: Path = Path("out/events.json"),
+            config: Path = Path("capture.toml"), out: Path = Path("out/passes"),
+            round: int = typer.Option(None, help="Only capture this round")):
+    """(Windows) Record every pass via the replay viewer + OBS. Resumable."""
+    from .capture import capture as _cap
+    _cap(shots, events, config, out, round)
+
+
+@app.command()
+def cut(shots: Path = Path("out/shots.json"), passes: Path = Path("out/passes/passes.json"),
+        out: Path = Path("out/cut")):
+    """Assemble program.mp4 from the captured passes."""
+    from .cut import cut as _cut
+    clips = _cut(shots, passes, out)
+    typer.echo(f"{len(clips)} shots → {out / 'program.mp4'}")
+
+
+@app.command()
 def detect(video: Path, out: Path = Path("out/events.json")):
     from .detect import detect as _detect
     out.parent.mkdir(parents=True, exist_ok=True)
