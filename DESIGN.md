@@ -24,3 +24,11 @@ Goal: from a Siege match replay, produce a broadcast-style video. The software c
 
 - Replay viewer keybinds for player switching and third person. These are read from `GameSettings.ini` or set during calibration.
 - Anti-cheat: capture sends synthetic keystrokes to the game window. They're menu and spectator inputs only, but the BattlEye risk isn't zero. `--multipass` reduces the inputs to one per pass.
+
+## Status (2026-10-25): paused
+
+- Done: parse (r6-dissect), director (shot list), cut, commentary/voice scaffolds, viewer control mapping.
+- Paused: capture. Siege runs under BattlEye at elevated integrity, so outside input requires an admin-level agent, which carries ban risk.
+- Ban-free options when resuming:
+  - Use footage Overwolf Insights already records automatically (your own POV only).
+  - Data-only broadcast: animated scoreboard, kill feed and map timeline from replay data, plus casters.
